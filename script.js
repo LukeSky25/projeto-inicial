@@ -14,8 +14,23 @@ var estd = document.getElementById('estd');
 
 botao.addEventListener('click', function(e) {
     
+
     saida.innerText = `Nome: ${nome.value}  ` + `\nEmail: ${email.value}  ` + `\nTelefone: ${tel.value}  ` + `\nCEP: ${cep.value}  ` + `\nLogradouro: ${logr.value}  ` + 
     `\nNúmero: ${num.value}` + `\nComplemento: ${compl.value}  ` + `\nBairro: ${bairro.value}  ` + `\nCidade: ${cid.value}` +
     `\nEstado: ${estd.value}`;
+
+    const url = `https://viacep.com.br/ws/${cep.value}/json`;
+    
+    fetch(url)
+        .then(resposta => resposta.json())
+        .then(dadosEndereco => {
+            logr.value = dadosEndereco.logradouro;
+            bairro.value = dadosEndereco.bairro;
+            cid.value = dadosEndereco.localidade;
+            estd.value = dadosEndereco.uf;
+            compl.value = dadosEndereco.complemento;
+        })
+        .catch(e => alert(e));
+        
 
 });
